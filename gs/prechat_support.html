@@ -20,42 +20,53 @@
 <form method="post" id="prechatForm">
 
 <!-- Pre-chat form fields -->
-<input type="text" placeholder="First Name" name="liveagent.prechat:contactFirstName" /><br />
-<input type="text" placeholder="Last Name" name="liveagent.prechat:contactLastName" /><br />
-<input type="text" placeholder="Email" name="liveagent.prechat:contactEmail" /><br />
-<input type="text" placeholder="Company" name="liveagent.prechat:companyName" /><br />
-<input type="text" placeholder="Message" name="liveagent.prechat:message" /><br />
+<input type="text" placeholder="First Name" id="firstName" name="liveagent.prechat:ContactFirstName" /><br />
+<input type="text" placeholder="Last Name" id="lastName" name="liveagent.prechat:ContactLastName" /><br />
+<input type="text" placeholder="Email" id="email" name="liveagent.prechat:ContactEmail" /><br />
+<input type="text" placeholder="Company" id="companyName" name="liveagent.prechat:CompanyName" /><br />
+<input type="text" placeholder="Message" id="message" name="liveagent.prechat:Message" /><br />
 
 <!-- Begin Hidden API fields -->
   <!-- Map the detail inputs to the Contact fields --> 
-  <input type="hidden" name="liveagent.prechat.findorcreate.map:Contact" value="FirstName,contactFirstName;LastName,contactLastName;Email,contactEmail;" />
+  <input type="hidden" name="liveagent.prechat.findorcreate.map:Contact" value="FirstName,ContactFirstName;LastName,ContactLastName;Email,ContactEmail;" />
 
   <!-- Try to find the Contact by email (exact match) -->
   <input type="hidden" name="liveagent.prechat.findorcreate.map.doFind:Contact" value="Email,true;" />
   <input type="hidden" name="liveagent.prechat.findorcreate.map.isExactMatch:Contact" value="Email,true;" />
 
-  <!-- Save the Contact on the Live Chat Transcript's Contact Loookup -->
+  <!-- Save the Contact on the Live Chat Transcript's Contact Lookup -->
   <input type="hidden" name="liveagent.prechat.findorcreate.saveToTranscript:Contact" value="ContactId" />
 
   <!-- Show the Contact when it is found or created -->
   <input type="hidden" name="liveagent.prechat.findorcreate.showOnCreate:Contact" value="true" />
 
   <!-- Map the detail inputs to the Account fields --> 
-  <input type="hidden" name="liveagent.prechat.findorcreate.map:Account" value="Name,companyName;" />
+  <input type="hidden" name="liveagent.prechat.findorcreate.map:Account" value="Name,CompanyName;" />
 
   <!-- Try to find the Account by name (exact match) -->
   <input type="hidden" name="liveagent.prechat.findorcreate.map.doFind:Account" value="Name,true;" />
   <input type="hidden" name="liveagent.prechat.findorcreate.map.isExactMatch:Account" value="Name,true;" />
 
-  <!-- Save the Contact on the Live Chat Transcript's Contact Loookup -->
+  <!-- Save the Contact on the Live Chat Transcript's Account Lookup -->
   <input type="hidden" name="liveagent.prechat.findorcreate.saveToTranscript:Account" value="AccountId" />
 
   <!-- Show the Contact when it is found or created -->
   <input type="hidden" name="liveagent.prechat.findorcreate.showOnCreate:Account" value="true" />
+
+  <!-- Use the name from the pre-chat form as the visitor's name in the chat (set by Javascript below) -->
+  <input type="hidden" name="liveagent.prechat.name" id="prechat_field_name" />
 <!-- End Hidden API Fields -->
 
 <!-- Pre-chat form submit button -->
-<input type="submit" value="Request Chat" id="prechat_submit" />
+<input type="submit" value="Request Chat" id="prechat_submit" onclick="setName()" />
+
+<!-- Set the visitor's name for the agent in the Console to first and last name provided by the customer -->
+<script type="text/javascript">
+  function setName() {
+    document.getElementById("prechat_field_name").value =  
+        document.getElementById("firstName").value + " " + document.getElementById("lastName").value;
+  }
+</script>
 
 </form> 
 </body>
