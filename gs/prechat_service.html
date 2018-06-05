@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript">
+(function() { 
+  function handlePageLoad() {
+    var endpointMatcher = new RegExp("[\\?\\&]endpoint=([^&#]*)");
+    document.getElementById('prechatForm').setAttribute('action',
+    decodeURIComponent(endpointMatcher.exec(document.location.search)[1]));
+  } 
+  if (window.addEventListener) {
+    window.addEventListener('load', handlePageLoad, false);
+  } else { 
+    window.attachEvent('onload', handlePageLoad, false);
+  }
+})(); 
+</script>
+</head>
+<body>
+<form method="post" id="prechatForm">
+
+<!-- Detail inputs -->
+<input type="text" placeholder="First Name" name="liveagent.prechat:contactFirstName" /><br />
+<input type="text" placeholder="Last Name" name="liveagent.prechat:contactLastName" /><br />
+<input type="text" placeholder="Email" name="liveagent.prechat:contactEmail" /><br />
+<input type="text" placeholder="Company" name="liveagent.prechat:accountName" /><br />
+<input type="text" placeholder="Message" name="liveagent.prechat:message" /><br />
+
+<!-- Map the detail inputs to the Contact fields --> 
+<input type="hidden" name="liveagent.prechat.findorcreate.map:Contact" value="FirstName,contactFirstName;LastName,contactLastName;Email,contactEmail;" />
+
+<!-- Try to find the Contact by email (exact match) -->
+<input type="hidden" name="liveagent.prechat.findorcreate.map.doFind:Contact" value="Email,true;" />
+<input type="hidden" name="liveagent.prechat.findorcreate.map.isExactMatch:Contact" value="Email,true;" />
+
+<!-- Save the Contact on the Live Chat Transcript's Contact Loookup -->
+<input type="hidden" name="liveagent.prechat.findorcreate.saveToTranscript:Contact" value="Contact" />
+
+<!-- Show the Contact when it is found or created -->
+<input type="hidden" name="liveagent.prechat.findorcreate.showOnCreate:Contact" value="true" />
+
+<input type="submit" value="Request Chat" id="prechat_submit" />
+
+</form> 
+</body>
+</html>
