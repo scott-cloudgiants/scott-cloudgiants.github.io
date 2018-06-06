@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript">
+(function() { 
+  function handlePageLoad() {
+    var endpointMatcher = new RegExp("[\\?\\&]endpoint=([^&#]*)");
+    document.getElementById('prechatForm').setAttribute('action',
+    decodeURIComponent(endpointMatcher.exec(document.location.search)[1]));
+  } 
+  if (window.addEventListener) {
+    window.addEventListener('load', handlePageLoad, false);
+  } else { 
+    window.attachEvent('onload', handlePageLoad, false);
+  }
+})(); 
+</script>
+</head>
+<body>
+<form method="post" id="prechatForm">
+
+<!-- Pre-chat form fields -->
+<input type="text" placeholder="First Name" id="firstName" name="liveagent.prechat:LeadFirstName" /><br />
+<input type="text" placeholder="Last Name" id="lastName" name="liveagent.prechat:LeadLastName" /><br />
+<input type="text" placeholder="Email" id="email" name="liveagent.prechat:LeadEmail" /><br />
+<input type="text" placeholder="Company" id="companyName" name="liveagent.prechat:CompanyName" /><br />
+<input type="text" placeholder="Message" id="message" name="liveagent.prechat:Message" /><br />
+
+<!-- Begin Hidden API fields -->
+  <!-- Map the detail inputs to the Lead fields --> 
+  <input type="hidden" name="liveagent.prechat.findorcreate.map:Lead" value="FirstName,LeadFirstName;LastName,LeadLastName;Email,LeadEmail;Company,CompanyName;" />
+
+  <!-- Try to find the Lead by email (exact match) -->
+  <input type="hidden" name="liveagent.prechat.findorcreate.map.doFind:Lead" value="Email,true;" />
+  <input type="hidden" name="liveagent.prechat.findorcreate.map.isExactMatch:Lead" value="Email,true;" />
+
+  <!-- If the Lead is not found, then create one -->
+  <input type="hidden" name="liveagent.prechat.findorcreate.map.doCreate:Lead" value="FirstName,true;LastName,true;Email,true;Company,true;" />
+
+  <!-- Save the Lead on the Live Chat Transcript's Lead Lookup -->
+  <input type="hidden" name="liveagent.prechat.findorcreate.saveToTranscript:Lead" value="LeadId" />
+
+  <!-- Show the Lead when it is found or created -->
+  <input type="hidden" name="liveagent.prechat.findorcreate.showOnCreate:Lead" value="true" />
+
+  <!-- Use the name from the pre-chat form as the visitor's name in the chat (set by Javascript below) -->
+  <input type="hidden" name="liveagent.prechat.name" id="prechat_field_name" />
+  <input type="hidden" name="liveagent.prechat:LeadFullName" id="fullName" />
+<!-- End Hidden API Fields -->
+
+<!-- Pre-chat form submit button -->
+<input type="submit" value="Request Chat" id="prechat_submit" onclick="setName()" />
+
+<!-- Set the visitor's name for the agent in the Console to first and last name provided by the customer -->
+<script type="text/javascript">
+  function setName() {
+    document.getElementById("prechat_field_name").value = 
+        document.getElementById("fullName").value =  
+            document.getElementById("firstName").value + " " + document.getElementById("lastName").value;
+  }
+</script>
+
+</form> 
+</body>
+</html>
