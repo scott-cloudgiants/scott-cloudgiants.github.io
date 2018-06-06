@@ -55,6 +55,7 @@
 
   <!-- Use the name from the pre-chat form as the visitor's name in the chat (set by Javascript below) -->
   <input type="hidden" name="liveagent.prechat.name" id="prechat_field_name" />
+  <input type="hidden" name="liveagent.prechat:ContactFullName" id="fullName" /><br />
 <!-- End Hidden API Fields -->
 
 <!-- Pre-chat form submit button -->
@@ -63,8 +64,9 @@
 <!-- Set the visitor's name for the agent in the Console to first and last name provided by the customer -->
 <script type="text/javascript">
   function setName() {
-    document.getElementById("prechat_field_name").value =  
-        document.getElementById("firstName").value + " " + document.getElementById("lastName").value;
+    document.getElementById("prechat_field_name").value = 
+        document.getElementById("fullName").value =  
+            document.getElementById("firstName").value + " " + document.getElementById("lastName").value;
   }
 </script>
 
